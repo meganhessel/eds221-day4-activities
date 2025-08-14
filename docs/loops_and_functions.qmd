@@ -1,0 +1,94 @@
+---
+title: "loops_and_functions"
+format: html
+editor: visual
+---
+
+# For Loops Revisited
+
+## task 1
+
+```{r}
+# create sequences 
+weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+transects <- c("Transect A", "Transect B", "Transect C")
+
+# create the output matrix
+task1_matrix <- matrix(nrow = 7, ncol = 3, byrow = TRUE)
+
+#nested loop 
+for(i in seq_along(weekdays)) {
+  for(j in seq_along(transects)){
+    k <- print(paste(weekdays[i], "-", transects[j]))
+    task1_matrix[i, j] <- k
+  }
+}
+
+```
+## Function Introduction
+```{r}
+# write a function for F = ma
+force <- function(m, a) {
+  F <- m * a
+  print(paste("The resulting force is", F))
+}
+
+# an example
+force(30, 100)
+```
+
+```{r}
+# create vectors
+sci_name <- c("Chanos chanos", "Sphyraena barracuda", "Caranx ignobilis")
+
+common_name <- c("Milkfish", "Great Barracuda", "Giant trevally")
+
+a_est <- c(0.0905, 0.0181, 0.0353)
+b_est <- c(2.53, 3.27, 3.05)
+
+
+# create data frame
+fish_parms <- data.frame(sci_name, common_name, a_est, b_est)
+
+
+# create a function for weight 
+# try 1 
+fish_weight <- function(fish_name, tot_length) {
+  if(fish_name == "Milkfish") {
+   fish_a <- 0.0905
+   fish_b <- 2.52
+ } 
+  else if(fish_name == "Great barracuda") {
+    fish_a <- 0.0181
+    fish_b <- 3.27
+  } 
+  else if(fish_name == "Giant trevally") {
+    fish_a <- 0.0353
+    fish_b <- 3.05
+  }
+  W <- fish_a * (tot_length)^(fish_b)
+  print(paste("The weight is", W))
+}
+
+
+# try 2 
+f_w <- function(fish_name, tot_length){
+  spec_fish <- subset(fish_parms, common_name == fish_name)
+  print(spec_fish)
+  
+  weight <- (spec_fish[[3]] * (tot_length ^ spec_fish[[4]]))
+  print(weight)
+  return(weight)
+}
+
+# try 3 
+
+
+
+
+# try fish weights 
+f_w("Milkfish", 7)
+
+```
+
