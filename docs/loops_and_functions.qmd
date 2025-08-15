@@ -26,24 +26,28 @@ for(i in seq_along(weekdays)) {
 }
 
 ```
+
 ## Function Introduction
+
+### Task 2
+
 ```{r}
 # write a function for F = ma
 force <- function(m, a) {
   F <- m * a
-  print(paste("The resulting force is", F))
+  print(paste("The resulting force is", F, "Newtons"))
 }
 
 # an example
 force(30, 100)
 ```
 
+### Task 3
+
 ```{r}
 # create vectors
 sci_name <- c("Chanos chanos", "Sphyraena barracuda", "Caranx ignobilis")
-
 common_name <- c("Milkfish", "Great Barracuda", "Giant trevally")
-
 a_est <- c(0.0905, 0.0181, 0.0353)
 b_est <- c(2.53, 3.27, 3.05)
 
@@ -83,12 +87,86 @@ f_w <- function(fish_name, tot_length){
 }
 
 # try 3 
+library(dplyr)
+fish_w <- function(fish_name, tot_length) { 
+  filter_fish <- fish_parms %>%    # I dont understand this part
+    filter(common_name == fish_name)
+  
+  a <- filter_fish[["a_est"]]
+  b <- filter_fish[["b_est"]]
+  
+  w = a* tot_length^b
+  return(w)
+  }
+
+# try 4 
+fish_wei <- function(fish_name, tot_length) { 
+  fil_fish <- fish_parms[fish_parms$common_name == fish_name] 
+  #not quite working yet 
+  
+  a <- filter_fish[["a_est"]]
+  b <- filter_fish[["b_est"]]
+  
+  W = a* tot_length^b
+  return(W)
+  }
 
 
 
 
-# try fish weights 
-f_w("Milkfish", 7)
+# create vector 
+vec_length <- seq(from = 0, to = 100)
+
+# create an empty vector for outputs 
+milkfish_weights <- vector(mode = "numeric", length = length(vec_length))
+  
+# fish weight over vec 
+for(i in seq_along(vec_length)) { 
+  m <- fish_w("Milkfish", vec_length[i])
+  milkfish_weights[i] <- m
+  }
+```
+
+### Task 4
+
+```{r}
+# create a wave power function 
+wave_power <- function(H, T) {
+  P <- 0.5 * (H^2) * T
+  power <- P
+  print(power)
+}
+
+# create a vector 
+wave_height_vec <- seq(from = 0, to = 3, by = 0.2)
+
+# create empty vector for function 
+wave_power_vec <- vector(mode = "numeric", length = length(wave_height_vec))
+
+# power function for T of 8 and H ranging at wave_height_vec
+for(i in seq_along(wave_height_vec)) {
+  a <- wave_power(H = wave_height_vec[i], T = 8)
+  wave_power_vec[i] <- a
+}
 
 ```
 
+### Task 5
+
+```{r}
+# creating function with if and else conditions 
+wave_energy_fun <- function(d, H, T) {
+  if(d > 12) {
+    wave_energy <- 0.5 * (H^2) * T
+    message("deep ocean equation")
+  } else if (d <= 12) {
+    wave_energy <- 0.81 * (H^2) * T
+    message("shallow ocean equation")
+  }
+  print(wave_energy)
+}
+
+
+wave_energy_fun(5, 1.2, 23)
+
+```
